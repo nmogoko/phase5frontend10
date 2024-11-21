@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     switch (req.method) {
         case 'GET':
             try {
-                const { buyerId, farmerId, populate } = req.query;
+                const { buyerId, farmerId, orderId, populate } = req.query;
                 let query = {};
 
                 if (buyerId) {
@@ -16,6 +16,10 @@ export default async function handler(req, res) {
 
                 if (farmerId) {
                     query['items.farmerId'] = new ObjectId(farmerId);
+                }
+                
+                if (orderId) {
+                    query._id=new ObjectId(orderId);
                 }
 
                 let orders = await db
