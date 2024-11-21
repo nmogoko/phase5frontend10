@@ -4,12 +4,12 @@ import useAuthStore from '../../lib/store/authStore';
 import { Clock } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -76,7 +76,7 @@ export default function OrderHistory() {
                                     <div className="flex flex-col items-end space-y-2">
                                         <Badge variant={
                                             order.status === 'confirmed' ? 'default' :
-                                            order.status === 'pending' ? 'secondary' : 'destructive'
+                                                order.status === 'pending' ? 'secondary' : 'destructive'
                                         }>
                                             {order.status}
                                         </Badge>
@@ -113,10 +113,11 @@ export default function OrderHistory() {
                                     <span className="text-lg font-bold ml-2">${order.totalAmount}</span>
                                 </div>
                                 <button
+                                    disabled={order && order.status === 'pending'}
                                     onClick={() => handleProceedToPay(order._id)}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                                    className={`px-4 py-2 rounded-md text-white ${(order && order.status == 'pending') ? 'bg-gray-500 hover:bg-gray-600' : order.status == 'rejected' ? 'bg-red-300 hover:bg-red-400' : 'bg-blue-500 hover:bg-blue-600'}`}
                                 >
-                                    Proceed to Pay
+                                    {(order && order.status == 'pending') ? 'Waiting for Approval' : order.status == 'rejected' ? 'Your order was rejected' : 'Proceed to Pay'}
                                 </button>
                             </CardFooter>
                         </Card>
