@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useAuthStore from '../../lib/store/authStore';
 import { Clock } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -42,6 +42,10 @@ export default function OrderHistory() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleProceedToPay = (orderId) => {
+        router.push(`/payment?orderId=${orderId}`);
     };
 
     if (loading) {
@@ -104,8 +108,16 @@ export default function OrderHistory() {
                                 </Table>
                             </CardContent>
                             <CardFooter className="flex justify-between items-center">
-                                <span className="font-semibold">Total:</span>
-                                <span className="text-lg font-bold">${order.totalAmount}</span>
+                                <div>
+                                    <span className="font-semibold">Total:</span>
+                                    <span className="text-lg font-bold ml-2">${order.totalAmount}</span>
+                                </div>
+                                <button
+                                    onClick={() => handleProceedToPay(order._id)}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                                >
+                                    Proceed to Pay
+                                </button>
                             </CardFooter>
                         </Card>
                     ))
